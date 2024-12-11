@@ -125,18 +125,20 @@ def process_text(source_txt):
     return page_df #text_cols
 
         
+def main():
+    source_txt = []
+    with open("source_text.txt","r") as f:
+        for line in f:
+            #source_txt.append(line)
+            source_txt.append(line.strip("\n"))
+    f.close()
+    st.title("🎈 On The Square Learning")
+    st.write(
+        "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
+    )
 
-source_txt = []
-with open("source_text.txt","r") as f:
-    for line in f:
-        #source_txt.append(line)
-        source_txt.append(line.strip("\n"))
-f.close()
-st.title("🎈 On The Square Learning 1")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
 
-
+if __name__ == "__main__":
+    main()
 
        

@@ -67,6 +67,7 @@ def process_text(source_txt,char_len=1):
     row_len = 20
     col_num = 1
     text_cols = {"Read 1":[]}
+    pure_text = ""
     row_count = 1
     #text_row = []
     excel_sheets = []
@@ -86,29 +87,20 @@ def process_text(source_txt,char_len=1):
             pass
         
         for word in line.split(" "):
-            
-            #char_count += 1
+            pure_text += process_words(word, " ",char_len)
             if char_count == col_len:
-                #*****for testing*****
-                cell_count += 1
-                if idx >= 12:
-                    pass
-                #*********************
                 char_count = 1
                 output_text += process_words(word, "",char_len)
-                text_cols[f"Read {col_num}"].append(output_text) 
+                text_cols[f"Read {col_num}"].append(output_text + " ") 
                 #text_row.append(output_text)
                 output_text = ""
-                #Row length
-                #*****for testing*****
-                if row_count >= 19:
-                    pass
-                #*********************
                 row_count, col_num, text_cols = row_reset_required(row_count, row_len, col_num, text_cols)           
             else:
                 char_count += 1
                 output_text += process_words(word, "  ",char_len)
-        
+        #Add new line to pure text output
+        pure_text += "\n\n"
+
         #Capture the final row which may be shorter
         if len(output_text) > 0:
             text_cols[f"Read {col_num}"].append(output_text)
@@ -124,8 +116,11 @@ def process_text(source_txt,char_len=1):
             row_count, col_num, text_cols = row_reset_required(row_len, row_len, col_num, text_cols)
         # col_num += 1
         # row_count = 1
-
+    text_list = []
+    #text_list.extend(v for v in text_cols.values())
+    text_list = [v for v in text_cols.values()]
+    text_only = "**\n".join([" ".join(v) for v in text_list])
     page_df = pd.DataFrame(text_cols)
     page_df.to_csv("output.csv", index=False, quoting=csv.QUOTE_ALL)
-    return page_df #text_cols
+    return page_df, pure_text
 

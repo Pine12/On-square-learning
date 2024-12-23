@@ -76,7 +76,7 @@ def process_text(source_txt,char_len=1):
     #text_row = []
     excel_sheets = []
     cell_count = 0
-    pattern = re.compile("([a-z]\.[A-Z])")
+    pattern = re.compile("([a-z]\\.[A-Z])")
     for idx,line in enumerate(source_txt):
         if len(line) == 0:
             continue
@@ -91,7 +91,10 @@ def process_text(source_txt,char_len=1):
             pass
         
         for word in line.split(" "):
-            pure_text += process_words(word, " ",char_len)
+            if word == "<BLANK>":
+                pure_text += word + " "
+            else:
+                pure_text += process_words(word, " ",char_len)
             if char_count == col_len:
                 char_count = 1
                 output_text += process_words(word, "",char_len)
@@ -127,4 +130,10 @@ def process_text(source_txt,char_len=1):
     page_df = pd.DataFrame(text_cols)
     page_df.to_csv("output.csv", index=False, quoting=csv.QUOTE_ALL)
     return page_df, pure_text
+
+
+#For testing functions
+doc_text = load_text_file("fc/FC Tracing Board.txt")
+_, pure_text = process_text(doc_text,1000)
+print(pure_text)
 

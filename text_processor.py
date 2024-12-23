@@ -10,12 +10,16 @@ import re
 import pandas as pd
 import csv
 
-def list_documents(doc_path):
+
+def list_documents(doc_path: list):
     included_extensions = ["txt"]
     # file_names = [fn for fn in listdir(doc_path)
     #             if isfile(join(doc_path, fn)) and any(fn.endswith(ext) for ext in included_extensions)]
-    file_names = {fn.replace(".txt",""):fn for fn in listdir(doc_path)
-                if isfile(join(doc_path, fn)) and any(fn.endswith(ext) for ext in included_extensions)}
+    file_names = {}
+    for doc in doc_path:
+        tmp_filenames = {fn.replace(".txt",""):(doc + fn) for fn in listdir(doc)
+                    if isfile(join(doc, fn)) and any(fn.endswith(ext) for ext in included_extensions)}
+        file_names.update(tmp_filenames)
     return file_names
 
 def load_text_file(fname: str):

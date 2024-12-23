@@ -16,7 +16,6 @@ from text_processor import (
 )
 
 class page_layout():
-    
 
     def __init__(self,process_function=None, ritual_list={}, source_txt=None):
         self.__process_function__ = process_function
@@ -125,8 +124,28 @@ class page_layout():
         self.get_text()
         self.get_dataframes()
 
-        
+    def get_degree(degree_path="ea/"):
+        page = page_layout(ritual_list=list_documents([degree_path]))
+        doc_name = page.controls["document list"]
+        doc_name = f"{degree_path}/{doc_name}.txt"
+        doc_text = load_text_file(f"{doc_name}")
+        page.get_page_block_layout(source_txt=doc_text)
+        st.header(f"{st.session_state.role} - {doc_name}")
+
+class document_cache:
+    def __init__(self, name: str, source: str):
+        self.__cache_dict__ = {}
+        self.__name__ = name
+        doc_list = list_documents([source])
+        for k,v in doc_list.items():
+            self.__cache_dict__[k] = load_text_file(v)
+        st.write(f"Loading cache for {self.__name__}")
     
+    def get_cache_file_names(self):
+        return list(self.__cache_dict__.keys())
+    
+    def get_cache_file(self,name):
+        return self.__cache_dict__[name]
     
     
     

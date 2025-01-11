@@ -4,5 +4,5 @@ from layout import (
     page_layout
 )
 
-st.title("🎈 On The Square - Ritual Learning - 2nd Degree")
+# st.header("🎈 On The Square - Ritual Learning - 2nd Degree")
 page_layout.get_degree("fc/")

@@ -27,7 +27,7 @@ def logout():
 
 
 role = st.session_state.role
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",)
 logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
 settings = st.Page("settings.py", title="Settings", icon=":material/settings:")
 ea_page = st.Page(

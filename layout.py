@@ -99,7 +99,7 @@ class page_layout():
 
         return tabs
 
-    def get_page_block_layout(self, source_txt=None, destination_txt=""):
+    def get_page_block_layout(self, source_txt=None, destination_txt="", text_box_output=False):
         
         if source_txt is not None:
             self.source_txt = source_txt
@@ -107,13 +107,13 @@ class page_layout():
             self.source_txt = ""
         else:
             pass
-        source, destination = st.columns([1,1])
+        # source, destination = st.columns([1,1])
 
         #with source:
         self.controls["source txt"] = stx.scrollableTextbox(
             key="source",
             text=source_txt,
-            height=200
+            height=300
         )
         # self.controls["Destination txt"] = stx.scrollableTextbox(
         #     key="destination",
@@ -121,16 +121,17 @@ class page_layout():
         #     height=200
         # ) 
         #with destination:
-        self.get_text()
+        if text_box_output: self.get_text()
         self.get_dataframes()
 
     def get_degree(degree_path="ea/"):
         page = page_layout(ritual_list=list_documents([degree_path]))
         doc_name = page.controls["document list"]
-        doc_name = f"{degree_path}/{doc_name}.txt"
-        doc_text = load_text_file(f"{doc_name}")
+        abs_doc_name = f"{degree_path}/{doc_name}.txt"
+        doc_text = load_text_file(f"{abs_doc_name}")
+        st.header(f"🎈 {st.session_state.role} - {doc_name}")
         page.get_page_block_layout(source_txt=doc_text)
-        st.header(f"{st.session_state.role} - {doc_name}")
+        
 
 class document_cache:
     def __init__(self, name: str, source: str):

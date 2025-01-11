@@ -37,15 +37,20 @@ def process_words(word,seperator,char_len=1):
         "TO":"2",
         "TOO":"2",
         "AND":"&",
+        "SEVENTEEN":"&",
+        "TWELVE":"&",
+        "THREE":"&",
+        #"<BLANK>":"<BLANK>",
     }
     if len(word) == 0: word = " "
-    if word.upper() in coded_words.keys():
+    if word.upper().strip() in coded_words.keys():
         word = coded_words[word.upper()]
         output_text = f"{word}{seperator}"
-        
-    elif re.match("[A-Z.]+[.,|;]", word) is not None:
+    elif word.find("<BLANK>") > -1:
         output_text = f"{word}{seperator}"
-    elif re.match(".+([.,;]|'s)$",word) is not None:
+    elif re.match("[\"'A-Z.]+['.,|;\"]", word) is not None:
+        output_text = f"{word}{seperator}"
+    elif re.match(".+([.,;\"]|'s)$",word) is not None:
         output_text = f"{word[0:char_len]}{word[-1]}{seperator}"
     else:
         output_text = f"{word[0:char_len]}{seperator}"
